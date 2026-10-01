@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Sleeping bag">
+  <g transform="rotate(-38 50 50)">
+    <rect x="28" y="8" width="44" height="84" rx="20"/>
+    <path d="M28 28h44v7H28zm0 16h44v7H28zm0 16h44v7H28z" fill="white"/>
+    <path d="M45 8h10v84H45z" fill="white" opacity=".15"/>
+  </g>
+</svg>

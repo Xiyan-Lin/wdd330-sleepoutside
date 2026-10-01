@@ -1,4 +1,14 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
+
+function getProductImage(item) {
+  return item.Images?.PrimaryMedium || item.Image || "";
+}
+
+function getColorName(item) {
+  return item.Colors?.[0]?.ColorName || "Color not listed";
+}
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
@@ -10,16 +20,16 @@ function renderCartContents() {
 
 function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
+  <a href="/product_pages/index.html?product=${encodeURIComponent(item.Id)}" class="cart-card__image">
     <img
-      src="${item.Image}"
+      src="${getProductImage(item)}"
       alt="${item.Name}"
     />
   </a>
-  <a href="#">
+  <a href="/product_pages/index.html?product=${encodeURIComponent(item.Id)}">
     <h2 class="card__name">${item.Name}</h2>
   </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+  <p class="cart-card__color">${getColorName(item)}</p>
   <p class="cart-card__quantity">qty: 1</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
 </li>`;

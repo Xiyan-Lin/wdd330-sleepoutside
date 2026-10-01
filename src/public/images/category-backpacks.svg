@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Backpack">
+  <path d="M35 20c0-9 7-15 15-15s15 6 15 15h9c8 0 14 6 14 14v49c0 7-6 12-13 12H25c-7 0-13-5-13-12V34c0-8 6-14 14-14h9Zm8 0h14c0-4-3-7-7-7s-7 3-7 7Zm-18 9c-3 0-5 2-5 5v49c0 2 2 4 5 4h50c3 0 5-2 5-4V34c0-3-2-5-5-5H25Z"/>
+  <path d="M28 50h44v29H28V50Zm8 8v13h28V58H36Z"/>
+</svg>

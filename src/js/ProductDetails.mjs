@@ -1,5 +1,22 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
+function getProductImage(product) {
+  return (
+    product.Images?.PrimaryLarge ||
+    product.Images?.PrimaryMedium ||
+    product.Image ||
+    ""
+  );
+}
+
+function getBrandName(product) {
+  return product.Brand?.Name || product.Brand || "";
+}
+
+function getColorName(product) {
+  return product.Colors?.[0]?.ColorName || "Color not listed";
+}
+
 export default class ProductDetails {
   constructor(productId, dataSource) {
     this.productId = productId;
@@ -8,19 +25,26 @@ export default class ProductDetails {
   }
 
   async init() {
-    this.product = await this.dataSource.findProductById(this.productId);
+    try {
+      this.product = await this.dataSource.findProductById(this.productId);
 
-    if (!this.product) {
+      if (!this.product || !this.product.Id) {
+        document.querySelector(".product-detail").innerHTML =
+          "<p>Product not found.</p>";
+        return;
+      }
+
+      document.title = `Sleep Outside | ${this.product.Name}`;
+      this.renderProductDetails();
+
+      document
+        .getElementById("addToCart")
+        .addEventListener("click", this.addProductToCart.bind(this));
+    } catch (error) {
+      console.error(error);
       document.querySelector(".product-detail").innerHTML =
-        "<p>Product not found.</p>";
-      return;
+        "<p>Unable to load this product. Please try again.</p>";
     }
-
-    this.renderProductDetails();
-
-    document
-      .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
   }
 
   addProductToCart() {
@@ -38,16 +62,18 @@ export default class ProductDetails {
     const product = this.product;
 
     document.querySelector(".product-detail").innerHTML = `
-      <h3>${product.Brand.Name}</h3>
-      <h2 class="divider">${product.NameWithoutBrand}</h2>
+      <h3>${getBrandName(product)}</h3>
+      <h2 class="divider">${product.NameWithoutBrand || product.Name}</h2>
       <img
         class="divider"
-        src="${product.Image}"
+        src="${getProductImage(product)}"
         alt="${product.Name}"
       />
       <p class="product-card__price">$${product.FinalPrice}</p>
-      <p class="product__color">${product.Colors[0].ColorName}</p>
-      <p class="product__description">${product.DescriptionHtmlSimple}</p>
+      <p class="product__color">${getColorName(product)}</p>
+      <div class="product__description">
+        ${product.DescriptionHtmlSimple || product.Description || ""}
+      </div>
       <div class="product-detail__add">
         <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
       </div>
